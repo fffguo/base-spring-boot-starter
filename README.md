@@ -5,15 +5,15 @@
 
 #### 软件架构
 软件架构说明
-jdk 1.8
-fastjson
-lombok
-spring aop
-spring web
+1. jdk 1.8
+2. fastjson
+3. lombok
+4. spring aop
+5. spring web
 
 #### 安装教程
 
-1.  xxxx
+1.  引入依赖即可
 2.  xxxx
 3.  xxxx
 
