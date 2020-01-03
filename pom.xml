@@ -10,13 +10,21 @@
     </parent>
     <groupId>com.gitee.free2free</groupId>
     <artifactId>base-spring-boot</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>base-spring-boot</name>
     <description>一个springboot的基础包</description>
 
     <properties>
+        <!--base-->
         <java.version>1.8</java.version>
+        <charset.format>utf-8</charset.format>
+        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+
         <fastjson.version>1.2.62</fastjson.version>
+
     </properties>
 
     <dependencies>
@@ -63,4 +71,126 @@
         </plugins>
     </build>
 
+
+    <url>https://gitee.com/free2free/base-spring-boot</url>
+
+    <!-- 组织信息 -->
+    <organization>
+        <name>liufuguo</name>
+        <url>https://gitee.com/free2free</url>
+    </organization>
+
+    <!-- 开源许可证，不知道如何选择，请参考https://github.com/qyxxjd/License -->
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <!-- 开发者信息 -->
+    <developers>
+        <developer>
+            <name>liufuguo</name>
+            <email>595726017@qq.com</email>
+        </developer>
+    </developers>
+
+    <!-- 开源地址 -->
+    <scm>
+        <connection>scm:git:git@gitee.com:free2free/base-spring-boot.git</connection>
+        <developerConnection>scm:git:git@gitee.com:free2free/base-spring-boot.git</developerConnection>
+        <url>https://gitee.com/free2free/base-spring-boot</url>
+    </scm>
+
+    <profiles>
+        <profile>
+            <id>OSSRH-54230</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <!-- Source -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${maven-source-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- GPG -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!--生产javadoc插件-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven-javadoc-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${nexus-staging-maven-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <!-- 这个id不要乱设置，需要和后面的settings.xml中的server的id保持一致 -->
+                            <serverId>OSSRH-54230</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>deploy-to-sonatype</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                    <goal>release</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>OSSRH-54230</id>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+                </snapshotRepository>
+                <repository>
+                    <id>OSSRH-54230</id>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 </project>

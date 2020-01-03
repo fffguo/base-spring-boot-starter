@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 public @interface Log {
 
     /**
-     * 方法名
+     * @return 方法名
      */
     String value();
 }
