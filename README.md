@@ -13,22 +13,41 @@
 
 #### 安装教程
 
-1.  引入依赖即可
+1.  引入依赖即可,
+```
+        <dependency>
+            <groupId>com.gitee.free2free</groupId>
+            <artifactId>base-spring-boot-starter</artifactId>
+            <version>${base-spring-boot-starter.version}</version>
+        </dependency>
+```
 2.  xxxx
 3.  xxxx
 
 #### 使用说明
 
-1.  使用日志切面：只需要在接口上添加Log注解即可
+1.1  使用日志切面：只需要在接口上添加Log注解即可
 ```
-    @Log("这里填写接口名称")
-    @RequestMapping("/test2")
+    @Log("这里填写接口名称,不填则默认controller路径")
+    @RequestMapping("/test")
     public Result<Object> test2(@RequestBody Test2Req req) {
         Map<String, Object> map = new HashMap<>(16);
         map.put("arg1", req.getArg1());
         map.put("arg2", req.getArg2());
         return success(map);
     }
+```
+>1.2 可选配置
+>> 可在配置文件中指定是否启用、定义请求/返回日志的格式（用{}包裹）
+>>> 参数支持：tranceId、sessionId、methodName、request、response
+```
+
+free2free:
+  base:
+    log:
+      enabled: true
+      request-format: tranceId:{tranceId},请求接口:[{methodName}],请求参数：{request}
+      response-format: tranceId:{tranceId},请求接口:[{methodName}],返回结果：{response}
 ```
 
 2.  baseController：只需在controller上继承baseController即可
