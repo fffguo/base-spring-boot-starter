@@ -7,14 +7,19 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.method.annotation.ExtendedServletRequestDataBinder;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponseWrapper;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -24,22 +29,92 @@ import java.util.UUID;
 @Aspect
 @Slf4j
 public class FreeLogAspect {
+    /**
+     * 请求日志格式
+     */
+    private String logFormatReq;
+    /**
+     * 返回日志格式
+     */
+    private String logFormatRes;
+
+
+    public FreeLogAspect(String logFormatReq, String logFormatRes) {
+        this.logFormatReq = logFormatReq;
+        this.logFormatRes = logFormatRes;
+    }
 
     @Around("@annotation(com.gitee.free2free.base.spring.boot.config.FreeLog)&&@annotation(freeLog)")
     public Object around(ProceedingJoinPoint pjp, FreeLog freeLog) throws Throwable {
-        String tranceId = UUID.randomUUID().toString().replace("-", "");
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
+                .getRequest();
+        //tranceId
+        String tranceId = "";
+        if (logFormatReq.contains(FreeLogKeyConstant.TRANCE_ID) || logFormatRes.contains(FreeLogKeyConstant.TRANCE_ID)) {
+            tranceId = UUID.randomUUID().toString().replace("-", "");
+        }
+        //请求路径
+        String servletPath = freeLog.value();
+        if (StringUtils.isEmpty(freeLog.value())) {
+            servletPath = request.getServletPath();
+        }
+        //sessionId
+        String sessionId = request.getRequestedSessionId();
+
         //打印请求日志
-        log.info(String.format("traceId:%s,请求接口:[%s],请求参数：%s", tranceId, freeLog.value(), getRequestArgs(pjp, tranceId)));
+        log.info(getReqLog(pjp, servletPath, tranceId, sessionId));
 
         //执行方法
         Object proceed = pjp.proceed();
 
         //打印返回日志
-        log.info(String.format("traceId:%s,请求接口:[%s],返回结果：%s", tranceId, freeLog.value(), JSONObject.toJSONString(proceed)));
+        log.info(getResLog(servletPath, tranceId, sessionId, proceed));
         return proceed;
     }
 
-    public String getRequestArgs(JoinPoint joinPoint, String traceId) {
+    /**
+     * 获取请求日志
+     */
+    private String getReqLog(ProceedingJoinPoint pjp, String servletPath, String tranceId, String sessionId) {
+        String reqLog = getCommonLog(servletPath, tranceId, sessionId, logFormatReq);
+        if (logFormatReq.contains(FreeLogKeyConstant.REQUEST)) {
+            reqLog = reqLog.replace(FreeLogKeyConstant.REQUEST, getRequestArgs(pjp));
+        }
+        return reqLog;
+    }
+
+    /**
+     * 获取返回日志
+     */
+    private String getResLog(String servletPath, String tranceId, String sessionId, Object resObject) {
+        String resLog = getCommonLog(servletPath, tranceId, sessionId, logFormatRes);
+        if (logFormatRes.contains(FreeLogKeyConstant.RESPONSE)) {
+            resLog = resLog.replace(FreeLogKeyConstant.RESPONSE, JSONObject.toJSONString(resObject));
+        }
+        return resLog;
+    }
+
+    /**
+     * 公共key
+     */
+    private String getCommonLog(String servletPath, String tranceId, String sessionId, String logFormat) {
+        String log = logFormat;
+        if (logFormat.contains(FreeLogKeyConstant.TRANCE_ID)) {
+            log = log.replace(FreeLogKeyConstant.TRANCE_ID, tranceId);
+        }
+        if (logFormat.contains(FreeLogKeyConstant.SESSION_ID)) {
+            log = log.replace(FreeLogKeyConstant.SESSION_ID, sessionId);
+        }
+        if (logFormat.contains(FreeLogKeyConstant.METHOD_NAME)) {
+            log = log.replace(FreeLogKeyConstant.METHOD_NAME, servletPath);
+        }
+        return log;
+    }
+
+    /**
+     * 获取请求参数
+     */
+    private String getRequestArgs(JoinPoint joinPoint) {
         try {
             // 参数名
             String[] argNames = ((MethodSignature) joinPoint.getSignature()).getParameterNames();
@@ -60,7 +135,7 @@ public class FreeLogAspect {
                 return JSONObject.toJSONString(paramMap);
             }
         } catch (Exception e) {
-            log.error("traceId:{},LOG AOP getRequestArgs:{}", traceId, e.getMessage(), e);
+            log.error("请求参数转换异常:{}", e.getMessage(), e);
         }
         return "";
     }

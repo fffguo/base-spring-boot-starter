@@ -1,6 +1,7 @@
 package com.gitee.free2free.base.spring.boot.properties;
 
 import com.gitee.free2free.base.spring.boot.config.FreeLogAspect;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -17,12 +18,14 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(FreeBaseStarterProperties.class)
 public class FreeBaseStarterAutoConfigure {
 
+    @Autowired
+    private FreeBaseStarterProperties freeBaseStarterProperties;
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = "free2free.base.log", value = "enabled", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "free2free.base.log", value = "enabled", matchIfMissing = true, havingValue = "true")
     public FreeLogAspect freeLogAspect() {
-        return new FreeLogAspect();
+        return new FreeLogAspect(freeBaseStarterProperties.getRequestFormat(), freeBaseStarterProperties.getResponseFormat());
     }
 
 }

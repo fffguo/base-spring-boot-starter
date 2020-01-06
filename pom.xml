@@ -164,7 +164,7 @@
                             <skip>true</skip>
                         </configuration>
                     </plugin>
-                    <!--生产javadoc插件-->
+                    <!--生成javadoc插件-->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
