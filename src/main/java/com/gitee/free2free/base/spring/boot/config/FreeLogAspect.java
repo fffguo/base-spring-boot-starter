@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.ExtendedServletRequestDataBinder;
 
 import javax.servlet.ServletRequest;
@@ -124,7 +125,8 @@ public class FreeLogAspect {
             for (int i = 0; i < objs.length; i++) {
                 if (objs[i] instanceof BeanPropertyBindingResult
                         || objs[i] instanceof ServletRequest
-                        || objs[i] instanceof ServletResponse) {
+                        || objs[i] instanceof ServletResponse
+                        || objs[i] instanceof MultipartFile) {
                     continue;
                 }
                 if (!(objs[i] instanceof ExtendedServletRequestDataBinder) && !(objs[i] instanceof HttpServletResponseWrapper)) {

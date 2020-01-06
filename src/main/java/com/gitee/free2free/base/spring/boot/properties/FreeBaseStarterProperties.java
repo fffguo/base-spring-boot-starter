@@ -1,5 +1,6 @@
 package com.gitee.free2free.base.spring.boot.properties;
 
+import com.gitee.free2free.base.spring.boot.config.FreeLogKeyConstant;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -18,11 +19,15 @@ public class FreeBaseStarterProperties {
     /**
      * 请求日志格式
      */
-    private String requestFormat = "sessionId:{sessionId},请求接口:[{methodName}],请求参数：{request}";
+    private String requestFormat = "tranceId:" + FreeLogKeyConstant.TRANCE_ID
+            + ",请求接口:" + FreeLogKeyConstant.METHOD_NAME
+            + ",请求参数：" + FreeLogKeyConstant.REQUEST;
     /**
      * 返回日志格式
      */
-    private String responseFormat = "sessionId:{sessionId},请求接口:[{methodName}],返回结果：{response}";
+    private String responseFormat = "tranceId:" + FreeLogKeyConstant.TRANCE_ID
+            + ",请求接口:" + FreeLogKeyConstant.METHOD_NAME
+            + ",返回参数：" + FreeLogKeyConstant.RESPONSE;
 
 
 }
