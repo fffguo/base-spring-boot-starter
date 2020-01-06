@@ -2,64 +2,79 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.2.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
     <groupId>com.gitee.free2free</groupId>
-    <artifactId>base-spring-boot</artifactId>
-    <version>1.0.0</version>
-    <name>base-spring-boot</name>
-    <description>一个springboot的基础包</description>
+    <artifactId>base-spring-boot-starter</artifactId>
+    <version>1.1.0</version>
+    <name>base-spring-boot-starter</name>
+    <description>this is springboot base package</description>
+    <packaging>jar</packaging>
 
     <properties>
         <!--base-->
         <java.version>1.8</java.version>
-        <charset.format>utf-8</charset.format>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
-
+        <!--spring-->
+        <spring-boot-starter-aop.version>2.2.2.RELEASE</spring-boot-starter-aop.version>
+        <spring-boot-starter-web.version>2.2.2.RELEASE</spring-boot-starter-web.version>
+        <spring-boot-autoconfigure.version>2.2.2.RELEASE</spring-boot-autoconfigure.version>
+        <spring-boot-configuration-processor.version>2.2.2.RELEASE</spring-boot-configuration-processor.version>
+        <spring-boot-maven-plugin.version>2.2.2.RELEASE</spring-boot-maven-plugin.version>
+        <!--other-->
         <fastjson.version>1.2.62</fastjson.version>
-
+        <lombok.version>1.18.10</lombok.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring-boot-starter-web.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+            <version>${spring-boot-starter-aop.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <version>${spring-boot-configuration-processor.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>${spring-boot-autoconfigure.version}</version>
+            <scope>provided</scope>
         </dependency>
 
+        <!--lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
+        <!--fastJson-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
+            <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
     </dependencies>
 
     <build>
@@ -67,6 +82,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot-maven-plugin.version}</version>
             </plugin>
         </plugins>
     </build>
@@ -114,6 +130,7 @@
                         <configuration>
                             <skip>true</skip>
                         </configuration>
+                        <version>${maven-deploy-plugin.version}</version>
                     </plugin>
                     <!-- Source -->
                     <plugin>
@@ -143,6 +160,9 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
                     </plugin>
                     <!--生产javadoc插件-->
                     <plugin>

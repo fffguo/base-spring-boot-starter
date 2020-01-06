@@ -1,12 +1,9 @@
-package com.lfg.base.spring.boot.domain.enums;
-
-import lombok.Getter;
+package com.gitee.free2free.base.spring.boot.domain.enums;
 
 /**
  * @author lfg
  * @version 1.0
  */
-@Getter
 public enum ResultCodeEnum {
 
     /**
@@ -22,5 +19,13 @@ public enum ResultCodeEnum {
     ResultCodeEnum(String code, String msg) {
         this.code = code;
         this.msg = msg;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getMsg() {
+        return msg;
     }
 }

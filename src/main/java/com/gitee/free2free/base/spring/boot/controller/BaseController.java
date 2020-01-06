@@ -1,7 +1,7 @@
-package com.lfg.base.spring.boot.controller;
+package com.gitee.free2free.base.spring.boot.controller;
 
-import com.lfg.base.spring.boot.domain.Result;
-import com.lfg.base.spring.boot.domain.enums.ResultCodeEnum;
+import com.gitee.free2free.base.spring.boot.domain.Result;
+import com.gitee.free2free.base.spring.boot.domain.enums.ResultCodeEnum;
 
 /**
  * @author lfg
