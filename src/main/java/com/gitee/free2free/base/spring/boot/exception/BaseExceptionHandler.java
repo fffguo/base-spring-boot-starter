@@ -22,6 +22,9 @@ public class BaseExceptionHandler {
 
     /**
      * 处理 ServiceException
+     *
+     * @param response response
+     * @param e        异常
      */
     @ExceptionHandler(ServiceException.class)
     public void handleServiceException(HttpServletResponse response, ServiceException e) {
@@ -32,6 +35,9 @@ public class BaseExceptionHandler {
 
     /**
      * 处理 MissingServletRequestParameterException
+     *
+     * @param response response
+     * @param e        异常
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public void handleMissingServletRequestParameterException(HttpServletResponse response, MissingServletRequestParameterException e) {
@@ -41,6 +47,9 @@ public class BaseExceptionHandler {
 
     /**
      * 处理 MethodArgumentNotValidException
+     *
+     * @param response response
+     * @param e        异常
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public void handleMethodArgumentNotValidException(HttpServletResponse response, MethodArgumentNotValidException e) {
@@ -50,6 +59,9 @@ public class BaseExceptionHandler {
 
     /**
      * 处理 Exception
+     *
+     * @param response response
+     * @param e        异常
      */
     @ExceptionHandler(Exception.class)
     public void handleException(HttpServletResponse response, Exception e) {
@@ -59,6 +71,9 @@ public class BaseExceptionHandler {
 
     /**
      * print
+     *
+     * @param response response
+     * @param result   返回信息
      */
     private void print(HttpServletResponse response, String result) {
         try {
