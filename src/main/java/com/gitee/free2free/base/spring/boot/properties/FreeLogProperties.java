@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @Data
 @ConfigurationProperties(prefix = "free2free.base.log")
-public class FreeBaseStarterProperties {
+public class FreeLogProperties {
 
     /**
      * 是否开启日志
@@ -19,13 +19,13 @@ public class FreeBaseStarterProperties {
     /**
      * 请求日志格式
      */
-    private String requestFormat = "tranceId:" + FreeLogKeyConstant.TRANCE_ID
+    private String requestFormat = "sessionId:" + FreeLogKeyConstant.SESSION_ID
             + ",请求接口:" + FreeLogKeyConstant.METHOD_NAME
             + ",请求参数：" + FreeLogKeyConstant.REQUEST;
     /**
      * 返回日志格式
      */
-    private String responseFormat = "tranceId:" + FreeLogKeyConstant.TRANCE_ID
+    private String responseFormat = "sessionId:" + FreeLogKeyConstant.SESSION_ID
             + ",请求接口:" + FreeLogKeyConstant.METHOD_NAME
             + ",返回参数：" + FreeLogKeyConstant.RESPONSE;
 
