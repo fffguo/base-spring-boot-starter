@@ -1,1 +1,4 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.gitee.free2free.base.spring.boot.properties.FreeBaseStarterAutoConfigure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.gitee.free2free.base.spring.boot.properties.FreeLogAutoConfigure,\
+  com.gitee.free2free.base.spring.boot.properties.BaseExceptionHandlerAutoConfigure
+

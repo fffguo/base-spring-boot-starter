@@ -60,7 +60,7 @@ public class FreeLogAspect {
             servletPath = request.getServletPath();
         }
         //sessionId
-        String sessionId = request.getRequestedSessionId();
+        String sessionId = request.getSession().getId();
 
         //打印请求日志
         log.info(getReqLog(pjp, servletPath, tranceId, sessionId));
@@ -90,7 +90,13 @@ public class FreeLogAspect {
     private String getResLog(String servletPath, String tranceId, String sessionId, Object resObject) {
         String resLog = getCommonLog(servletPath, tranceId, sessionId, logFormatRes);
         if (logFormatRes.contains(FreeLogKeyConstant.RESPONSE)) {
-            resLog = resLog.replace(FreeLogKeyConstant.RESPONSE, JSONObject.toJSONString(resObject));
+            String resJson = "";
+            if (resObject instanceof String) {
+                resJson = resJson + resObject;
+            } else {
+                resJson = JSONObject.toJSONString(resObject);
+            }
+            resLog = resLog.replace(FreeLogKeyConstant.RESPONSE, resJson);
         }
         return resLog;
     }

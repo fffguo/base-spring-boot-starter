@@ -15,17 +15,17 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnClass(FreeLogAspect.class)
-@EnableConfigurationProperties(FreeBaseStarterProperties.class)
-public class FreeBaseStarterAutoConfigure {
+@EnableConfigurationProperties(FreeLogProperties.class)
+public class FreeLogAutoConfigure {
 
     @Autowired
-    private FreeBaseStarterProperties freeBaseStarterProperties;
+    private FreeLogProperties freeLogProperties;
 
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(prefix = "free2free.base.log", value = "enabled", matchIfMissing = true, havingValue = "true")
     public FreeLogAspect freeLogAspect() {
-        return new FreeLogAspect(freeBaseStarterProperties.getRequestFormat(), freeBaseStarterProperties.getResponseFormat());
+        return new FreeLogAspect(freeLogProperties.getRequestFormat(), freeLogProperties.getResponseFormat());
     }
 
 }
