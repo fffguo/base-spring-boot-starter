@@ -1,8 +1,6 @@
-package com.gitee.free2free.base.spring.boot.exception;
+package com.gitee.free2free.base.spring.boot.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.gitee.free2free.base.spring.boot.domain.Result;
-import com.gitee.free2free.base.spring.boot.domain.enums.CodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -21,15 +19,15 @@ public class BaseExceptionHandler {
 
 
     /**
-     * 处理 ServiceException
+     * 处理 BaseException
      *
      * @param response response
      * @param e        异常
      */
-    @ExceptionHandler(ServiceException.class)
-    public void handleServiceException(HttpServletResponse response, ServiceException e) {
+    @ExceptionHandler(BaseException.class)
+    public void handleServiceException(HttpServletResponse response, BaseException e) {
         log.error("ServiceException:{}", e.getMessage(), e);
-        print(response, JSONObject.toJSONString(new Result<>(e.getCode(), e.getMessage())));
+        print(response, JSONObject.toJSONString(new Result(CodeConstant.FAIL, "请求失败")));
     }
 
 
@@ -42,7 +40,7 @@ public class BaseExceptionHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public void handleMissingServletRequestParameterException(HttpServletResponse response, MissingServletRequestParameterException e) {
         log.error("MissingServletRequestParameterException:{}", e.getMessage(), e);
-        print(response, JSONObject.toJSONString(new Result<>(CodeEnum.PARAM_MISS.getCode(), "入参缺失：" + e.getMessage())));
+        print(response, JSONObject.toJSONString(new Result(CodeConstant.FAIL, "入参缺失：" + e.getMessage())));
     }
 
     /**
@@ -54,7 +52,7 @@ public class BaseExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public void handleMethodArgumentNotValidException(HttpServletResponse response, MethodArgumentNotValidException e) {
         log.error("MethodArgumentNotValidException:{}", e.getMessage(), e);
-        print(response, JSONObject.toJSONString(new Result<>(CodeEnum.PARAM_NO_VALID.getCode(), "入参校验不通过：" + e.getMessage())));
+        print(response, JSONObject.toJSONString(new Result(CodeConstant.FAIL, "入参校验不通过：" + e.getMessage())));
     }
 
     /**
@@ -66,7 +64,7 @@ public class BaseExceptionHandler {
     @ExceptionHandler(Exception.class)
     public void handleException(HttpServletResponse response, Exception e) {
         log.error("Exception:{}", e.getMessage(), e);
-        print(response, JSONObject.toJSONString(new Result<>(CodeEnum.SERVICE_ERROR, null)));
+        print(response, JSONObject.toJSONString(new Result(CodeConstant.FAIL, "服务器内部错误：" + e.getMessage())));
     }
 
     /**
@@ -75,7 +73,7 @@ public class BaseExceptionHandler {
      * @param response response
      * @param result   返回信息
      */
-    private void print(HttpServletResponse response, String result) {
+    protected void print(HttpServletResponse response, String result) {
         try {
             response.setContentType("application/json; charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);

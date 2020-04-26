@@ -1,6 +1,6 @@
-package com.gitee.free2free.base.spring.boot.properties;
+package com.gitee.free2free.base.spring.boot.config;
 
-import com.gitee.free2free.base.spring.boot.exception.BaseExceptionHandler;
+import com.gitee.free2free.base.spring.boot.controller.BaseExceptionHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

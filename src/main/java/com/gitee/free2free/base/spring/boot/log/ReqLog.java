@@ -1,4 +1,4 @@
-package com.gitee.free2free.base.spring.boot.config;
+package com.gitee.free2free.base.spring.boot.log;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface FreeLog {
+public @interface ReqLog {
 
     /**
      * @return 方法名

@@ -1,10 +1,10 @@
-package com.gitee.free2free.base.spring.boot.config;
+package com.gitee.free2free.base.spring.boot.log;
 
 /**
  * @author lfg
  * @version 1.0
  */
-public class FreeLogKeyConstant {
+public class BaseLogKeyConstant {
 
     /**
      * 序列号

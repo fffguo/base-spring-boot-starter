@@ -1,4 +1,4 @@
-package com.gitee.free2free.base.spring.boot.config;
+package com.gitee.free2free.base.spring.boot.log;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
@@ -29,41 +29,55 @@ import java.util.UUID;
  */
 @Aspect
 @Slf4j
-public class FreeLogAspect {
+public class BaseLogAspect {
     /**
      * 请求日志格式
      */
-    private String logFormatReq;
+    private final String LOG_FORMAT_REQUEST;
     /**
      * 返回日志格式
      */
-    private String logFormatRes;
+    private final String LOG_FORMAT_RESPONSE;
 
 
-    public FreeLogAspect(String logFormatReq, String logFormatRes) {
-        this.logFormatReq = logFormatReq;
-        this.logFormatRes = logFormatRes;
+    /**
+     * 构造方法
+     *
+     * @param logFormatReq 请求日志格式
+     * @param logFormatRes 返回日志格式
+     */
+    public BaseLogAspect(String logFormatReq, String logFormatRes) {
+        this.LOG_FORMAT_REQUEST = logFormatReq;
+        this.LOG_FORMAT_RESPONSE = logFormatRes;
     }
 
-    @Around("@annotation(com.gitee.free2free.base.spring.boot.config.FreeLog)&&@annotation(freeLog)")
-    public Object around(ProceedingJoinPoint pjp, FreeLog freeLog) throws Throwable {
+    /**
+     * 日志切面
+     *
+     * @param pjp       切点
+     * @param aroundLog 日志注解
+     * @return controller返回结果
+     * @throws Throwable controller执行异常
+     */
+    @Around("@annotation(com.gitee.free2free.base.spring.boot.log.AroundLog)&&@annotation(aroundLog)")
+    public Object around(ProceedingJoinPoint pjp, AroundLog aroundLog) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
                 .getRequest();
         //tranceId
         String tranceId = "";
-        if (logFormatReq.contains(FreeLogKeyConstant.TRANCE_ID) || logFormatRes.contains(FreeLogKeyConstant.TRANCE_ID)) {
+        if (LOG_FORMAT_REQUEST.contains(BaseLogKeyConstant.TRANCE_ID) || LOG_FORMAT_RESPONSE.contains(BaseLogKeyConstant.TRANCE_ID)) {
             tranceId = UUID.randomUUID().toString().replace("-", "");
         }
         //请求路径
-        String servletPath = freeLog.value();
-        if (StringUtils.isEmpty(freeLog.value())) {
+        String servletPath = aroundLog.value();
+        if (StringUtils.isEmpty(aroundLog.value())) {
             servletPath = request.getServletPath();
         }
         //sessionId
         String sessionId = request.getSession().getId();
 
         //打印请求日志
-        log.info(getReqLog(pjp, servletPath, tranceId, sessionId));
+        log.info(getReqLog(getRequestArgs(pjp), servletPath, tranceId, sessionId));
 
         //执行方法
         Object proceed = pjp.proceed();
@@ -75,51 +89,72 @@ public class FreeLogAspect {
 
     /**
      * 获取请求日志
+     *
+     * @param servletPath 请求路径
+     * @param tranceId    链路ID
+     * @param sessionId   sessionId
+     * @param reqParam    请求参数
+     * @return 日志
      */
-    private String getReqLog(ProceedingJoinPoint pjp, String servletPath, String tranceId, String sessionId) {
-        String reqLog = getCommonLog(servletPath, tranceId, sessionId, logFormatReq);
-        if (logFormatReq.contains(FreeLogKeyConstant.REQUEST)) {
-            reqLog = reqLog.replace(FreeLogKeyConstant.REQUEST, getRequestArgs(pjp));
+    private String getReqLog(String servletPath, String tranceId, String sessionId, String reqParam) {
+        String reqLog = getCommonLog(servletPath, tranceId, sessionId, LOG_FORMAT_REQUEST);
+        if (LOG_FORMAT_REQUEST.contains(BaseLogKeyConstant.REQUEST)) {
+            reqLog = reqLog.replace(BaseLogKeyConstant.REQUEST, reqParam);
         }
         return reqLog;
     }
 
     /**
      * 获取返回日志
+     *
+     * @param servletPath 请求路径
+     * @param tranceId    链路ID
+     * @param sessionId   sessionId
+     * @param resObject   程序返回结果
+     * @return 返回日志
      */
     private String getResLog(String servletPath, String tranceId, String sessionId, Object resObject) {
-        String resLog = getCommonLog(servletPath, tranceId, sessionId, logFormatRes);
-        if (logFormatRes.contains(FreeLogKeyConstant.RESPONSE)) {
+        String resLog = getCommonLog(servletPath, tranceId, sessionId, LOG_FORMAT_RESPONSE);
+        if (LOG_FORMAT_RESPONSE.contains(BaseLogKeyConstant.RESPONSE)) {
             String resJson = "";
             if (resObject instanceof String) {
                 resJson = resJson + resObject;
             } else {
                 resJson = JSONObject.toJSONString(resObject);
             }
-            resLog = resLog.replace(FreeLogKeyConstant.RESPONSE, resJson);
+            resLog = resLog.replace(BaseLogKeyConstant.RESPONSE, resJson);
         }
         return resLog;
     }
 
     /**
-     * 公共key
+     * 获取通用日志
+     *
+     * @param servletPath 请求路劲
+     * @param tranceId    链路ID
+     * @param sessionId   sessionId
+     * @param logFormat   日志格式
+     * @return 日志
      */
     private String getCommonLog(String servletPath, String tranceId, String sessionId, String logFormat) {
         String log = logFormat;
-        if (logFormat.contains(FreeLogKeyConstant.TRANCE_ID)) {
-            log = log.replace(FreeLogKeyConstant.TRANCE_ID, tranceId);
+        if (logFormat.contains(BaseLogKeyConstant.TRANCE_ID)) {
+            log = log.replace(BaseLogKeyConstant.TRANCE_ID, tranceId);
         }
-        if (logFormat.contains(FreeLogKeyConstant.SESSION_ID)) {
-            log = log.replace(FreeLogKeyConstant.SESSION_ID, sessionId);
+        if (logFormat.contains(BaseLogKeyConstant.SESSION_ID)) {
+            log = log.replace(BaseLogKeyConstant.SESSION_ID, sessionId);
         }
-        if (logFormat.contains(FreeLogKeyConstant.METHOD_NAME)) {
-            log = log.replace(FreeLogKeyConstant.METHOD_NAME, servletPath);
+        if (logFormat.contains(BaseLogKeyConstant.METHOD_NAME)) {
+            log = log.replace(BaseLogKeyConstant.METHOD_NAME, servletPath);
         }
         return log;
     }
 
     /**
      * 获取请求参数
+     *
+     * @param joinPoint 切点
+     * @return 请求参数
      */
     private String getRequestArgs(JoinPoint joinPoint) {
         try {

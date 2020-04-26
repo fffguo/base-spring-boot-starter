@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.gitee.free2free</groupId>
     <artifactId>base-spring-boot-starter</artifactId>
-    <version>1.2.0</version>
+    <version>2.0.0</version>
     <name>base-spring-boot-starter</name>
     <description>this is springboot base package</description>
     <packaging>jar</packaging>
@@ -32,6 +32,7 @@
         <!--other-->
         <fastjson.version>1.2.62</fastjson.version>
         <lombok.version>1.18.10</lombok.version>
+        <hutool.version>5.3.2</hutool.version>
     </properties>
 
     <dependencies>
@@ -52,19 +53,32 @@
             <scope>provided</scope>
         </dependency>
 
-        <!--lombok-->
+        <!--工具包-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-http</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!--fastJson-->
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <!--工具包-->
 
 
     </dependencies>
@@ -153,6 +167,7 @@
                             </execution>
                         </executions>
                         <configuration>
+                            <!--                            <skip>true</skip>-->
                             <skip>false</skip>
                         </configuration>
                     </plugin>
