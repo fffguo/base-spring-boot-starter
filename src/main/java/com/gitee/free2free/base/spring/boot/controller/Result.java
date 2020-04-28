@@ -1,6 +1,6 @@
 package com.gitee.free2free.base.spring.boot.controller;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 /**
@@ -10,23 +10,34 @@ import lombok.Data;
 @Data
 public class Result {
 
-    @JsonProperty(index = 1)
-    private Integer code;
-    @JsonProperty(index = 2)
+    /**
+     * code
+     */
+    @JSONField(ordinal = 1)
+    private String code;
+
+    /**
+     * message
+     */
+    @JSONField(ordinal = 2)
     private String msg;
-    @JsonProperty(index = 3)
+
+    /**
+     * data
+     */
+    @JSONField(ordinal = 3)
     private Object data;
 
     public Result() {
     }
 
-    public Result(Integer code, String msg, Object data) {
+    public Result(String code, String msg, Object data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
     }
 
-    public Result(Integer code, String msg) {
+    public Result(String code, String msg) {
         this.code = code;
         this.msg = msg;
     }

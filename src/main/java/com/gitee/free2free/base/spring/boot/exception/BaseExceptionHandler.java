@@ -1,6 +1,9 @@
-package com.gitee.free2free.base.spring.boot.controller;
+package com.gitee.free2free.base.spring.boot.exception;
 
+import cn.hutool.http.ContentType;
 import com.alibaba.fastjson.JSONObject;
+import com.gitee.free2free.base.spring.boot.controller.CodeConstant;
+import com.gitee.free2free.base.spring.boot.controller.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -26,8 +29,8 @@ public class BaseExceptionHandler {
      */
     @ExceptionHandler(BaseException.class)
     public void handleServiceException(HttpServletResponse response, BaseException e) {
-        log.error("ServiceException:{}", e.getMessage(), e);
-        print(response, JSONObject.toJSONString(new Result(CodeConstant.FAIL, "请求失败")));
+        log.error("BaseException:{}", e.getMessage(), e);
+        print(response, JSONObject.toJSONString(new Result(e.getCode(), e.getMessage())));
     }
 
 
@@ -75,7 +78,7 @@ public class BaseExceptionHandler {
      */
     protected void print(HttpServletResponse response, String result) {
         try {
-            response.setContentType("application/json; charset=utf-8");
+            response.setContentType(ContentType.JSON.getValue());
             response.setStatus(HttpServletResponse.SC_OK);
             response.setCharacterEncoding("UTF-8");
             response.getWriter().print(result);

@@ -1,6 +1,6 @@
 package com.gitee.free2free.base.spring.boot.ding;
 
-import com.gitee.free2free.base.spring.boot.controller.BaseException;
+import com.gitee.free2free.base.spring.boot.exception.BaseException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -23,12 +23,12 @@ public class NoticeException extends BaseException {
     }
 
     @Override
-    public Integer getCode() {
+    public String getCode() {
         return super.getCode();
     }
 
     @Override
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         super.setCode(code);
     }
 }

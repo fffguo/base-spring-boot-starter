@@ -16,7 +16,18 @@ import java.lang.annotation.Target;
 public @interface AroundLog {
 
     /**
+     * 没赋值的话，默认取servlet路径
+     *
      * @return 方法名
      */
     String value() default "";
+
+
+    /**
+     * 默认只打印请求日志
+     *
+     * @return AroundType
+     */
+    AroundType type() default AroundType.REQUEST;
+
 }

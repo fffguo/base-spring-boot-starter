@@ -22,8 +22,11 @@ public class BaseController {
         return new Result(CodeConstant.FAIL, msg);
     }
 
-    public static Result fail(Integer code, String msg) {
+    public static Result fail(String code, String msg) {
         return new Result(code, msg);
     }
 
+    public static Result fail(Integer code, String msg) {
+        return new Result(String.valueOf(code), msg);
+    }
 }

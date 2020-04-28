@@ -17,6 +17,10 @@ public class BaseApi {
 
     /**
      * 发起请求
+     * 请求方式支持 GET POST
+     * Content-type 支持
+     * ------------------FORM_URLENCODED ：get请求会把request参数拼接在url上
+     * ------------------JSON：post请求会把request参数转json放在请求体中
      *
      * @param request    请求bean
      * @param <Response> 返回bean.class
@@ -24,7 +28,7 @@ public class BaseApi {
      */
     public <Response extends BaseApiResponse> Response execute(BaseApiRequest<Response> request) {
         String result;
-        switch (request.takeMethod()) {
+        switch (request.getMethod()) {
             case GET:
                 result = handlerGet(request);
                 break;
@@ -34,9 +38,11 @@ public class BaseApi {
             default:
                 throw new HttpException("不支持该请求方式");
         }
-        Response response = JSONObject.parseObject(result, request.takeResponse());
-        if (!response.successful()) {
-            log.error("\n请求接口失败：{}\n请求参数：{}\n返回结果：{}\n", request.takeUrl(), request.toJsonString(), result);
+        Response response = JSONObject.parseObject(result, request.getResponse());
+        if (response.isSuccess()) {
+            log.debug("\n请求接口：{}\n请求参数：{}\n返回结果：{}\n", request.getUrl(), request.toJsonString(), result);
+        } else {
+            log.error("\n请求接口失败：{}\n请求参数：{}\n返回结果：{}\n", request.getUrl(), request.toJsonString(), result);
         }
         return response;
     }
@@ -49,8 +55,8 @@ public class BaseApi {
      * @return http请求 body内容
      */
     private <Response extends BaseApiResponse> String handlerGet(BaseApiRequest<Response> request) {
-        return HttpUtil.createGet(request.takeUrl())
-                .contentType(request.takeContentType().toString())
+        return HttpUtil.createGet(request.getUrl())
+                .contentType(request.getContentType().toString())
                 .form(BeanUtil.beanToMap(request, false, true))
                 .execute().body();
     }
@@ -63,8 +69,8 @@ public class BaseApi {
      * @return http请求 body内容
      */
     private <Response extends BaseApiResponse> String handlerPost(BaseApiRequest<Response> request) {
-        return HttpUtil.createPost(request.takeUrl())
-                .contentType(request.takeContentType().getValue())
+        return HttpUtil.createPost(request.getUrl())
+                .contentType(request.getContentType().getValue())
                 .body(request.toJsonString())
                 .execute().body();
     }

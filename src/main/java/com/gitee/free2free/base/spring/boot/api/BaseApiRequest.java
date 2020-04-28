@@ -2,6 +2,9 @@ package com.gitee.free2free.base.spring.boot.api;
 
 import cn.hutool.http.ContentType;
 import cn.hutool.http.Method;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * sdk 请求类接口
@@ -17,34 +20,44 @@ public interface BaseApiRequest<Response extends BaseApiResponse> {
      *
      * @return url
      */
-    String takeUrl();
+    @JSONField(serialize = false)
+    @JsonIgnore
+    String getUrl();
 
     /**
      * 获取请求方式
      *
      * @return Http方法枚举
      */
-    Method takeMethod();
+    @JSONField(serialize = false)
+    @JsonIgnore
+    Method getMethod();
 
     /**
      * 获取 content-type
      *
      * @return 常用Content-Type类型枚举
      */
-    ContentType takeContentType();
+    @JSONField(serialize = false)
+    @JsonIgnore
+    ContentType getContentType();
 
     /**
      * 获取返回类型 Response.class
      *
      * @return 接口返回类型.class
      */
-    Class<Response> takeResponse();
+    @JSONField(serialize = false)
+    @JsonIgnore
+    Class<Response> getResponse();
 
     /**
      * 获取jsonString
      *
      * @return json
      */
-    String toJsonString();
+    default String toJsonString() {
+        return JSONObject.toJSONString(this);
+    }
 
 }

@@ -9,10 +9,10 @@ public class CodeConstant {
     /**
      * 成功
      */
-    public static final Integer SUCCESS = 0;
+    public static final String SUCCESS = "0";
     /**
      * 失败
      */
-    public static final Integer FAIL = 1;
+    public static final String FAIL = "1";
 
 }

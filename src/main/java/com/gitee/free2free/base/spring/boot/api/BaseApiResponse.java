@@ -1,5 +1,8 @@
 package com.gitee.free2free.base.spring.boot.api;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * sdk 接口返回类
  *
@@ -13,5 +16,7 @@ public interface BaseApiResponse {
      *
      * @return 是/否 成功
      */
-    boolean successful();
+    @JSONField(serialize = false)
+    @JsonIgnore
+    boolean isSuccess();
 }
