@@ -5,20 +5,20 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 用于将异常信息通知给第三方平台
+ * 用于将异常信息通知给钉钉
  *
  * @author lfg
  * @version 1.0
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class NoticeException extends BaseException {
+public class DingException extends BaseException {
 
-    public NoticeException(String message) {
+    public DingException(String message) {
         super(message);
     }
 
-    public NoticeException(Integer code, String message) {
+    public DingException(Integer code, String message) {
         super(code, message);
     }
 

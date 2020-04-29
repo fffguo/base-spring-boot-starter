@@ -7,14 +7,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * BaseExceptionHandlerAutoConfigure
+ * 自动注入异常处理
  *
  * @author lfg
  * @version 1.0
  */
 @Configuration
 @ConditionalOnClass(BaseExceptionHandler.class)
-public class BaseExceptionHandlerAutoConfigure {
+public class BaseExceptionConfig {
 
     @Bean
     @ConditionalOnMissingBean

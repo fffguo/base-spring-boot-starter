@@ -5,6 +5,7 @@ import cn.hutool.http.HttpException;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * sdk基础工具类
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  * @version 1.0
  */
 @Slf4j
+@Component
 public class BaseApi {
 
     /**
@@ -40,9 +42,9 @@ public class BaseApi {
         }
         Response response = JSONObject.parseObject(result, request.getResponse());
         if (response.isSuccess()) {
-            log.debug("\n请求接口：{}\n请求参数：{}\n返回结果：{}\n", request.getUrl(), request.toJsonString(), result);
+            log.debug("\n请求接口：{}\n请求参数：{}\n返回结果：{}", request.getUrl(), request.toJsonString(), result);
         } else {
-            log.error("\n请求接口失败：{}\n请求参数：{}\n返回结果：{}\n", request.getUrl(), request.toJsonString(), result);
+            log.error("\n请求接口失败：{}\n请求参数：{}\n返回结果：{}", request.getUrl(), request.toJsonString(), result);
         }
         return response;
     }

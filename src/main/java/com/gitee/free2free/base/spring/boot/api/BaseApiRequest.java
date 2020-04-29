@@ -5,6 +5,7 @@ import cn.hutool.http.Method;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.NonNull;
 
 /**
  * sdk 请求类接口
@@ -20,6 +21,7 @@ public interface BaseApiRequest<Response extends BaseApiResponse> {
      *
      * @return url
      */
+    @NonNull
     @JSONField(serialize = false)
     @JsonIgnore
     String getUrl();
@@ -29,6 +31,7 @@ public interface BaseApiRequest<Response extends BaseApiResponse> {
      *
      * @return Http方法枚举
      */
+    @NonNull
     @JSONField(serialize = false)
     @JsonIgnore
     Method getMethod();
@@ -38,6 +41,7 @@ public interface BaseApiRequest<Response extends BaseApiResponse> {
      *
      * @return 常用Content-Type类型枚举
      */
+    @NonNull
     @JSONField(serialize = false)
     @JsonIgnore
     ContentType getContentType();

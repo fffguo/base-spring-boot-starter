@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.gitee.free2free.base.spring.boot.log.AroundFormat.*;
+import static com.gitee.free2free.base.spring.boot.log.AroundType.canPrintRequest;
+import static com.gitee.free2free.base.spring.boot.log.AroundType.canPrintResponse;
 import static com.gitee.free2free.base.spring.boot.utils.HttpServletUtils.getServletPath;
 import static com.gitee.free2free.base.spring.boot.utils.HttpServletUtils.getSessionId;
 
@@ -35,25 +37,25 @@ public class AroundLogAspect {
     /**
      * 日志切面
      *
-     * @param pjp       切点
-     * @param aroundLog 日志注解
+     * @param pjp 切点
+     * @param ann 日志注解
      * @return controller返回结果
      * @throws Throwable controller执行异常
      */
-    @Around("@annotation(com.gitee.free2free.base.spring.boot.log.AroundLog)&&@annotation(aroundLog)")
-    public Object around(ProceedingJoinPoint pjp, AroundLog aroundLog) throws Throwable {
+    @Around("@annotation(com.gitee.free2free.base.spring.boot.log.AroundLog)&&@annotation(ann)")
+    public Object around(ProceedingJoinPoint pjp, AroundLog ann) throws Throwable {
 
         //打印请求日志
-        if (AroundType.canPrintRequest(aroundLog.type())) {
-            log.info(getReqLog(aroundLog, getRequestArgs(pjp)));
+        if (canPrintRequest(ann.type())) {
+            log.info(getReqLog(ann, getRequestArgs(pjp)));
         }
 
         //执行方法
         Object proceed = pjp.proceed();
 
         //打印返回日志
-        if (AroundType.canPrintResponse(aroundLog.type())) {
-            log.info(getResLog(aroundLog, proceed));
+        if (canPrintResponse(ann.type())) {
+            log.info(getResLog(ann, proceed));
         }
         return proceed;
     }
@@ -111,7 +113,7 @@ public class AroundLogAspect {
      * @param joinPoint 切点
      * @return 请求参数
      */
-    private String getRequestArgs(JoinPoint joinPoint) {
+    public String getRequestArgs(JoinPoint joinPoint) {
         try {
             // 参数名
             String[] argNames = ((MethodSignature) joinPoint.getSignature()).getParameterNames();
@@ -137,5 +139,6 @@ public class AroundLogAspect {
         }
         return "";
     }
+
 
 }

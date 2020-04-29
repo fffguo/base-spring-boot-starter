@@ -7,14 +7,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * FreeLogAutoConfigure
+ * 自动注入日志切面
  *
  * @author lfg
  * @version 1.0
  */
 @Configuration
 @ConditionalOnClass(AroundLogAspect.class)
-public class FreeLogAutoConfigure {
+public class AroundLogConfig {
 
 
     @Bean

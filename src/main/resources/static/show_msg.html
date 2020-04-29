@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>告警信息</title>
+</head>
+<body>
+<!--该文件已上传到七牛云，这里只作为备份使用-->
+<h4 id="sessionId"></h4>
+<br/>
+<div id="msg"></div>
+
+</body>
+
+</html>
+<script>
+    function getUrlKey(name) {
+        return (
+            decodeURIComponent(
+                (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(
+                    location.href
+                ) || [undefined, ''])[1].replace(/\+/g, '%20')
+            ) || null
+        )
+    }
+
+    document.getElementById('sessionId').innerHTML = 'sessionId: ' + getUrlKey('sessionId')
+    document.getElementById('msg').innerHTML = getUrlKey('msg').replace(new RegExp('<br>', 'g'), '<br>&emsp;&emsp;')
+</script>

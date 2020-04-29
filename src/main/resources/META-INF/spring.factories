@@ -1,4 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.gitee.free2free.base.spring.boot.config.FreeLogAutoConfigure,\
-  com.gitee.free2free.base.spring.boot.config.BaseExceptionHandlerAutoConfigure
+  com.gitee.free2free.base.spring.boot.config.AroundLogConfig,\
+  com.gitee.free2free.base.spring.boot.config.BaseExceptionConfig,\
+  com.gitee.free2free.base.spring.boot.config.DingConfig,\
+  com.gitee.free2free.base.spring.boot.api.BaseApi
 
