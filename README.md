@@ -26,6 +26,8 @@
 
 #### 使用说明
 
+[=》点击这里，查看demo项目，了解如何使用！《=](https://gitee.com/free2free/base-spring-boot-starter-demo)
+
 1.  baseController：只需在controller上继承baseController即可
 
 [=>查看详情<=](https://gitee.com/free2free/base-spring-boot-starter/wikis/1.%20BaseController?sort_id=1845423)
