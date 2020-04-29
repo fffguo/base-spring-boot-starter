@@ -7,6 +7,7 @@ import com.gitee.free2free.base.spring.boot.api.BaseApi;
 import com.gitee.free2free.base.spring.boot.config.DingConfig;
 import com.gitee.free2free.base.spring.boot.controller.CodeConstant;
 import com.gitee.free2free.base.spring.boot.controller.Result;
+import com.gitee.free2free.base.spring.boot.ding.DingException;
 import com.gitee.free2free.base.spring.boot.ding.DingRequest;
 import com.gitee.free2free.base.spring.boot.ding.DingResponse;
 import com.gitee.free2free.base.spring.boot.ding.LinkDTO;
@@ -74,6 +75,20 @@ public class BaseExceptionHandler {
     public void handleMethodArgumentNotValidException(HttpServletResponse response, MethodArgumentNotValidException e) {
         log.error("MethodArgumentNotValidException:{}", e.getMessage(), e);
         print(response, JSONObject.toJSONString(new Result(CodeConstant.FAIL, "入参校验不通过：" + e.getMessage())));
+    }
+
+    /**
+     * 处理 DingException
+     *
+     * @param response response
+     * @param e        异常
+     */
+    @ExceptionHandler(DingException.class)
+    public void handleDingException(HttpServletResponse response, DingException e) {
+        log.error("DingException:{}", e.getMessage(), e);
+        print(response, JSONObject.toJSONString(new Result(CodeConstant.FAIL, e.getMessage())));
+        //通知钉钉
+        noticeDing(e);
     }
 
     /**
