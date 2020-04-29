@@ -65,9 +65,11 @@ public class DemoController  extends BaseController {
     }
 ```
 3.异常处理ExceptionHandler
->不新建ExceptionHandler类的话，会有baseExceptionHandler行使一些默认的异常处理。 如果想实现自定义的异常处理，可以新建自己的ExceptionHandler，只需继承BaseExceptionHandler， 重写BaseExceptionHandler的相关方法即可不新建ExceptionHandler类的话，会有baseExceptionHandler行使一些默认的异常处理。 如果想实现自定义的异常处理，可以新建自己的ExceptionHandler，只需继承BaseExceptionHandler， 重写BaseExceptionHandler的相关方法即可
+>不新建ExceptionHandler类的话，会有baseExceptionHandler行使一些默认的异常处理。 
 
->[=>查看详情<=](https://gitee.com/free2free/base-spring-boot-starter/wikis/3.%20%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86ExceptionHandler?sort_id=1859544)
+>如果想实现自定义的异常处理，可以新建自己的ExceptionHandler，只需继承BaseExceptionHandler， 重写BaseExceptionHandler的相关方法即可
+
+[=>查看详情<=](https://gitee.com/free2free/base-spring-boot-starter/wikis/3.%20%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86ExceptionHandler?sort_id=1859544)
 
 ```java
 /**
