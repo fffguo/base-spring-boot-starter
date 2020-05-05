@@ -23,12 +23,8 @@
         <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
-        <!--spring-->
-        <spring-boot-starter-aop.version>2.2.2.RELEASE</spring-boot-starter-aop.version>
-        <spring-boot-starter-web.version>2.2.2.RELEASE</spring-boot-starter-web.version>
-        <spring-boot-autoconfigure.version>2.2.2.RELEASE</spring-boot-autoconfigure.version>
-        <spring-boot-configuration-processor.version>2.2.2.RELEASE</spring-boot-configuration-processor.version>
-        <spring-boot-maven-plugin.version>2.2.2.RELEASE</spring-boot-maven-plugin.version>
+        <!--spring boot-->
+        <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
         <!--other-->
         <fastjson.version>1.2.62</fastjson.version>
         <lombok.version>1.18.10</lombok.version>
@@ -39,19 +35,19 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring-boot-starter-web.version}</version>
+            <version>${spring-boot.version}</version>
             <!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
-            <version>${spring-boot-starter-aop.version}</version>
+            <version>${spring-boot.version}</version>
             <!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
-            <version>${spring-boot-configuration-processor.version}</version>
+            <version>${spring-boot.version}</version>
             <!--            <scope>provided</scope>-->
         </dependency>
 
@@ -92,7 +88,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot-maven-plugin.version}</version>
+                <version>${spring-boot.version}</version>
             </plugin>
         </plugins>
     </build>
